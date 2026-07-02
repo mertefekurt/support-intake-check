@@ -6,12 +6,12 @@
 
 Lint support intake forms for priority, reproduction, and account fields. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
 
-## Input Contract 27
+## Input Contract
 
 Accepts support intake schema. The reader supports plain text, JSON, JSONL, and CSV so the
 tool can fit into scripts, CI jobs, and review exports.
 
-## CLI Walkthrough 27
+## CLI Walkthrough
 
 ```bash
 python -m pip install -e ".[dev]"
@@ -20,7 +20,7 @@ support-intake-check examples/sample.txt --json --fail-on medium
 python -m support_intake_check --help
 ```
 
-## Rule Surface 27
+## Rule Surface
 
 | Rule | Severity | Meaning |
 |---|---:|---|
@@ -28,7 +28,7 @@ python -m support_intake_check --help
 | `missing-repro` | medium | reproduction steps missing |
 | `unknown-account` | low | account identifier missing |
 
-## Validation Notes 27
+## Validation Notes
 
 ```bash
 ruff check .
