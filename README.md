@@ -1,48 +1,46 @@
-# support-intake-check
+# Support Intake Check
 
-> Lint support intake forms for priority, reproduction, and account fields.
+<p align="center">
+  <img src="assets/readme-cover.svg" alt="Support Intake Check cover" width="100%" />
+</p>
 
-## Spec sheet Overview
+![stack](https://img.shields.io/badge/stack-Python-7c3aed?style=flat-square) ![python](https://img.shields.io/badge/python-3.11-0891b2?style=flat-square) ![license](https://img.shields.io/badge/license-MIT-b45309?style=flat-square) ![ci](https://img.shields.io/badge/ci-GitHub%20Actions-be185d?style=flat-square)
 
-Lint support intake forms for priority, reproduction, and account fields. It solves review drift by turning plain-text plans into deterministic CI-friendly findings.
+Lint support intake forms for priority, reproduction, and account fields.
 
-## Input Contract
+## The short version
 
-Accepts support intake schema. The reader supports plain text, JSON, JSONL, and CSV so the
-tool can fit into scripts, CI jobs, and review exports.
+`support-intake-check` is intentionally small: feed it a file, get deterministic findings, and decide whether the result should block a merge or just guide cleanup.
 
-## CLI Walkthrough
+## Rule surface
+
+| Rule | Severity | What it catches |
+| --- | --- | --- |
+| `missing-priority` | high | priority field missing |
+| `missing-repro` | medium | reproduction steps missing |
+| `unknown-account` | low | account identifier missing |
+
+## Usage
 
 ```bash
 python -m pip install -e ".[dev]"
 support-intake-check examples/sample.txt
 support-intake-check examples/sample.txt --json --fail-on medium
-python -m support_intake_check --help
 ```
 
-## Rule Surface
+## Useful defaults
 
-| Rule | Severity | Meaning |
-|---|---:|---|
-| `missing-priority` | high | priority field missing |
-| `missing-repro` | medium | reproduction steps missing |
-| `unknown-account` | low | account identifier missing |
+| Option | Reason |
+| --- | --- |
+| `--json` | machine-readable output for scripts |
+| `--fail-on medium` | stricter CI gate when warnings matter |
+| `--format auto` | let the reader detect text, CSV, JSON, or JSONL |
 
-## Validation Notes
+## Local checks
 
 ```bash
+python -m pip install -e ".[dev]"
 ruff check .
 pytest
 python -m support_intake_check --help
 ```
-
-Example risky input:
-
-```text
-priority missing repro none account_id unknown
-```
-
-Architecture: `cli.py` handles arguments, `core.py` reads and evaluates records, and
-`rules.py` keeps the project-specific policy explicit.
-
-License: MIT.
